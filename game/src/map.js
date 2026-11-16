@@ -162,9 +162,12 @@ export function createMap(scene) {
 
   // Light: a low amber sun from the west, a cool blue-grey sky, and two warm
   // strip lights over the sites so the objectives read at a glance.
-  const sky = new THREE.HemisphereLight(new THREE.Color('#5a6a80'), new THREE.Color(PALETTE.canvas), 1.1);
+  // Lighting pass: golden-hour levels, not near-night — the hemisphere and
+  // fill are raised so shadowed lanes stay readable, and the site lamps are
+  // stronger so A and B glow instead of sinking into the dark.
+  const sky = new THREE.HemisphereLight(new THREE.Color('#93a7c2'), new THREE.Color(PALETTE.canvas), 1.8);
   scene.add(sky);
-  const sun = new THREE.DirectionalLight(new THREE.Color('#ffb45e'), 2.6);
+  const sun = new THREE.DirectionalLight(new THREE.Color('#ffc27a'), 3.4);
   sun.position.set(-18, 10, 8);
   sun.target.position.set(4, 0, -6);
   sun.castShadow = true;
@@ -176,11 +179,11 @@ export function createMap(scene) {
   sun.shadow.camera.far = 60;
   sun.shadow.bias = -0.0006;
   scene.add(sun, sun.target);
-  const fill = new THREE.DirectionalLight(new THREE.Color('#7d8ea8'), 0.5);
+  const fill = new THREE.DirectionalLight(new THREE.Color('#a7b8cc'), 1.0);
   fill.position.set(14, 12, 12);
   scene.add(fill);
   for (const site of [SITES.A, SITES.B]) {
-    const lamp = new THREE.PointLight(new THREE.Color(PALETTE.accent), 12, 14);
+    const lamp = new THREE.PointLight(new THREE.Color(PALETTE.accent), 22, 18);
     lamp.position.set(site.x, 4.6, site.z);
     scene.add(lamp);
   }
